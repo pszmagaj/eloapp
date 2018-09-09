@@ -10,6 +10,7 @@ require 'Entity/Game.php';
 require 'Controller/UsersCtrl.php';
 require 'Controller/AuthCtrl.php';
 require 'Controller/RatingsHistoryCtrl.php';
+require 'Controller/MigrateCtrl.php';
 require 'Util/Helpers.php';
 $container = require 'container.php';
 
@@ -67,6 +68,13 @@ $app->get('/ratings_history/{userNid}', function (Request $request, Response $re
     $ratingsHistoryCtrl = new RatingsHistoryCtrl($this->em);
     $respArray = $ratingsHistoryCtrl->getRatingsHistory($userNid);
     return $response->withJson($respArray);
+});
+
+$app->get('/migrateToGames', function (Request $request, Response $response) {
+    AuthCtrl::assertIsLogged();
+
+    $migrateCtrl = new MigrateCtrl($this->db);
+    $migrateCtrl->migrate();
 });
 
 $app->run();
