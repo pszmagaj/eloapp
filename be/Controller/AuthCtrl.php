@@ -1,30 +1,23 @@
 <?php
 namespace Elo\Controller;
 
-use Exception;
-
 class AuthCtrl
 {
-	public static function isLogged()
+
+	const IS_LOGGED_KEY = "isLogged";
+
+	public static function isLogged($session)
 	{
-		return isset($_SESSION['isLogged']);
+		return $session->get(self::IS_LOGGED_KEY, false);
 	}
 
-	public static function assertIsLogged()
-	{
-		if (!AuthCtrl::isLogged()) {
-			throw new Exception('Not logged');
-		}
-	}
-
-	public function login($password)
+	public function login($password, $session)
 	{
 		$accessPassword = '613b88d193a2be96cb728060933ed74166db46f7';
 		$isPass = sha1($password) === $accessPassword;
 		if ($isPass) {
-			$_SESSION['isLogged'] = true;
+			$session->set(self::IS_LOGGED_KEY, true);
 		}
-
 		return $isPass;
 	}
 }
