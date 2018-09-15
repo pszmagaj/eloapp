@@ -8,5 +8,10 @@
         "php": "5.6",
         "slim/slim": "^3.0",
         "doctrine/orm": "2.5.14"
+    },
+    "autoload": {
+        "psr-4": {
+            "Elo\\": "./"
+        }
     }
 }
